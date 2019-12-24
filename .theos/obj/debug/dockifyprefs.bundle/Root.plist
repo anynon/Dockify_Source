@@ -6,8 +6,16 @@
 	<array>
 		<dict>
 			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
+			<string>PSGroupCell</string>
+			<key>condensed</key>
+			<true/>
+			<key>headerCellClass</key>
+			<string>HBPackageNameHeaderCell</string>
+			<key>icon</key>
+			<string>icon.png</string>
+			<key>packageIdentifier</key>
+			<string>com.burritoz.testing</string>
+			<key>packageNameOverride</key>
 			<string>Dockify by Burrit0z</string>
 		</dict>
 		<dict>
@@ -44,7 +52,7 @@
 			<key>key</key>
 			<string>hidden</string>
 			<key>label</key>
-			<string>Hide (kinda)</string>
+			<string>Hide (kinda, not really)</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -54,19 +62,21 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSEditTextCell</string>
+			<string>PSSliderCell</string>
 			<key>default</key>
 			<string>1</string>
 			<key>defaults</key>
 			<string>com.burritoz.dockifyprefs</string>
 			<key>key</key>
 			<string>setHeight</string>
-			<key>placeholder</key>
-			<string>Enter value greater than 0</string>
-			<key>isDecimalPad</key>
+			<key>min</key>
+			<integer>0</integer>
+			<key>max</key>
+			<integer>10</integer>
+			<key>isSegmented</key>
+			<false/>
+			<key>showValue</key>
 			<true/>
-			<key>keyboard</key>
-			<string>numbers</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -76,27 +86,47 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSEditTextCell</string>
+			<string>PSSliderCell</string>
 			<key>default</key>
 			<string>1</string>
 			<key>defaults</key>
 			<string>com.burritoz.dockifyprefs</string>
 			<key>key</key>
 			<string>customOpacity</string>
-			<key>placeholder</key>
-			<string>Will not be set if transparent is on</string>
-			<key>isDecimalPad</key>
+			<key>min</key>
+			<integer>0</integer>
+			<key>max</key>
+			<integer>1</integer>
+			<key>isSegmented</key>
+			<false/>
+			<key>showValue</key>
 			<true/>
-			<key>keyboard</key>
-			<string>numbers</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Respring</string>
+			<string>Apply/ReSpring</string>
 			<key>action</key>
 			<string>respring:</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>&quot;Try not. Do... or do not. There is no try.&quot;</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>Source Code</string>
+			<key>subtitle</key>
+			<string>The source code for Dockify</string>
+			<key>icon</key>
+			<string>icon.png</string>
+			<key>url</key>
+			<string>https://github.com/Burrit0z/Dockify_Source</string>
 		</dict>
 	</array>
 	<key>title</key>

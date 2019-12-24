@@ -1,6 +1,8 @@
 #line 1 "Tweak.x"
+
 #import <SpringBoard/SpringBoard.h>
 #import <Cephei/HBPreferences.h>
+
 
 static BOOL transparent;
 static BOOL hidden;
@@ -8,6 +10,7 @@ static double setHeight;
 static double customOpacity;
 
 HBPreferences *preferences;
+
 
 
 #include <substrate.h>
@@ -33,40 +36,42 @@ HBPreferences *preferences;
 @class SBDockView; 
 static void (*_logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$)(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL, double); static void _logos_method$_ungrouped$SBDockView$setBackgroundAlpha$(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL, double); static double (*_logos_orig$_ungrouped$SBDockView$dockHeight)(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL); static double _logos_method$_ungrouped$SBDockView$dockHeight(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL); 
 
-#line 11 "Tweak.x"
+#line 14 "Tweak.x"
+
+
 
 static void _logos_method$_ungrouped$SBDockView$setBackgroundAlpha$(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, double arg1)  {
-    if (transparent == NO) {
+    if (transparent == NO && hidden == NO) { 
       _logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$(self, _cmd, customOpacity);
-    }else if (transparent) {
-      _logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$(self, _cmd, 0.0);
+    }else if (transparent || hidden) { 
+      _logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$(self, _cmd, 0.0); 
     } else {
-      NSLog(@"Dock not Transparent, no custom opacity\n");
+      NSLog(@"Dock not Transparent/hidden, no custom opacity\n");
     }
 }
 
 static double _logos_method$_ungrouped$SBDockView$dockHeight(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
   if (hidden) {
-    return (-500);
+    return (-50); 
   } else {
-    return (_logos_orig$_ungrouped$SBDockView$dockHeight(self, _cmd)*setHeight);
+    return (_logos_orig$_ungrouped$SBDockView$dockHeight(self, _cmd)*setHeight); 
   }
   }
 
 
 
-static __attribute__((constructor)) void _logosLocalCtor_eb769390(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_d1a00f3d(int __unused argc, char __unused **argv, char __unused **envp) {
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"com.burritoz.dockifyprefs"];
-	[preferences registerDefaults:@{
+	[preferences registerDefaults:@{ 
     @"setHeight": @1,
     @"customOpacity": @1,
     @"hidden": @NO
 	}];
-	[preferences registerBool:&transparent default:YES forKey:@"transparent"];
-  [preferences registerBool:&hidden default:NO forKey:@"hidden"];
-	[preferences registerDouble:(double *)&setHeight default:1 forKey:@"setHeight"];
-  [preferences registerDouble:(double *)&customOpacity default:1 forKey:@"customOpacity"];
+	[preferences registerBool:&transparent default:YES forKey:@"transparent"]; 
+  [preferences registerBool:&hidden default:NO forKey:@"hidden"]; 
+	[preferences registerDouble:(double *)&setHeight default:1 forKey:@"setHeight"]; 
+  [preferences registerDouble:(double *)&customOpacity default:1 forKey:@"customOpacity"]; 
 }
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$SBDockView = objc_getClass("SBDockView"); MSHookMessageEx(_logos_class$_ungrouped$SBDockView, @selector(setBackgroundAlpha:), (IMP)&_logos_method$_ungrouped$SBDockView$setBackgroundAlpha$, (IMP*)&_logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$);MSHookMessageEx(_logos_class$_ungrouped$SBDockView, @selector(dockHeight), (IMP)&_logos_method$_ungrouped$SBDockView$dockHeight, (IMP*)&_logos_orig$_ungrouped$SBDockView$dockHeight);} }
-#line 44 "Tweak.x"
+#line 49 "Tweak.x"
