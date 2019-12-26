@@ -1,13 +1,16 @@
 #line 1 "Tweak.x"
 
 #import <SpringBoard/SpringBoard.h>
+#import <SpringBoard/SBDockIconListView.h>
 #import <Cephei/HBPreferences.h>
+#include <UIKit/UIKit.h>
 
 
 static BOOL transparent;
 static BOOL hidden;
 static double setHeight;
 static double customOpacity;
+static NSInteger setIconNumber;
 
 HBPreferences *preferences;
 
@@ -33,10 +36,10 @@ HBPreferences *preferences;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBDockView; 
-static void (*_logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$)(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL, double); static void _logos_method$_ungrouped$SBDockView$setBackgroundAlpha$(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL, double); static double (*_logos_orig$_ungrouped$SBDockView$dockHeight)(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL); static double _logos_method$_ungrouped$SBDockView$dockHeight(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL); 
+@class SBDockIconListView; @class SBDockView; 
+static void (*_logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$)(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL, double); static void _logos_method$_ungrouped$SBDockView$setBackgroundAlpha$(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL, double); static double (*_logos_orig$_ungrouped$SBDockView$dockHeight)(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL); static double _logos_method$_ungrouped$SBDockView$dockHeight(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST, SEL); static NSInteger (*_logos_meta_orig$_ungrouped$SBDockIconListView$maxIcons)(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL); static NSInteger _logos_meta_method$_ungrouped$SBDockIconListView$maxIcons(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL); 
 
-#line 14 "Tweak.x"
+#line 17 "Tweak.x"
 
 
 
@@ -51,27 +54,37 @@ static void _logos_method$_ungrouped$SBDockView$setBackgroundAlpha$(_LOGOS_SELF_
 }
 
 static double _logos_method$_ungrouped$SBDockView$dockHeight(_LOGOS_SELF_TYPE_NORMAL SBDockView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
-  if (hidden) {
-    return (-50); 
-  } else {
     return (_logos_orig$_ungrouped$SBDockView$dockHeight(self, _cmd)*setHeight); 
   }
+
+
+
+
+
+static NSInteger _logos_meta_method$_ungrouped$SBDockIconListView$maxIcons(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+  if (hidden) {
+    return (0);
+  } else {
+    return (setIconNumber);
   }
+}
 
 
 
-static __attribute__((constructor)) void _logosLocalCtor_d1a00f3d(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_44056092(int __unused argc, char __unused **argv, char __unused **envp) {
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"com.burritoz.dockifyprefs"];
 	[preferences registerDefaults:@{ 
     @"setHeight": @1,
     @"customOpacity": @1,
-    @"hidden": @NO
+    @"hidden": @NO,
+    @"setIconNumber": @4,
 	}];
 	[preferences registerBool:&transparent default:YES forKey:@"transparent"]; 
   [preferences registerBool:&hidden default:NO forKey:@"hidden"]; 
 	[preferences registerDouble:(double *)&setHeight default:1 forKey:@"setHeight"]; 
   [preferences registerDouble:(double *)&customOpacity default:1 forKey:@"customOpacity"]; 
+  [preferences registerInteger:(NSInteger *)&setIconNumber default:4 forKey:@"setIconNumber"]; 
 }
 static __attribute__((constructor)) void _logosLocalInit() {
-{Class _logos_class$_ungrouped$SBDockView = objc_getClass("SBDockView"); MSHookMessageEx(_logos_class$_ungrouped$SBDockView, @selector(setBackgroundAlpha:), (IMP)&_logos_method$_ungrouped$SBDockView$setBackgroundAlpha$, (IMP*)&_logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$);MSHookMessageEx(_logos_class$_ungrouped$SBDockView, @selector(dockHeight), (IMP)&_logos_method$_ungrouped$SBDockView$dockHeight, (IMP*)&_logos_orig$_ungrouped$SBDockView$dockHeight);} }
-#line 49 "Tweak.x"
+{Class _logos_class$_ungrouped$SBDockView = objc_getClass("SBDockView"); MSHookMessageEx(_logos_class$_ungrouped$SBDockView, @selector(setBackgroundAlpha:), (IMP)&_logos_method$_ungrouped$SBDockView$setBackgroundAlpha$, (IMP*)&_logos_orig$_ungrouped$SBDockView$setBackgroundAlpha$);MSHookMessageEx(_logos_class$_ungrouped$SBDockView, @selector(dockHeight), (IMP)&_logos_method$_ungrouped$SBDockView$dockHeight, (IMP*)&_logos_orig$_ungrouped$SBDockView$dockHeight);Class _logos_class$_ungrouped$SBDockIconListView = objc_getClass("SBDockIconListView"); Class _logos_metaclass$_ungrouped$SBDockIconListView = object_getClass(_logos_class$_ungrouped$SBDockIconListView); MSHookMessageEx(_logos_metaclass$_ungrouped$SBDockIconListView, @selector(maxIcons), (IMP)&_logos_meta_method$_ungrouped$SBDockIconListView$maxIcons, (IMP*)&_logos_meta_orig$_ungrouped$SBDockIconListView$maxIcons);} }
+#line 62 "Tweak.x"

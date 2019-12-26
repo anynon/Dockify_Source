@@ -15,14 +15,12 @@
 			<string>icon.png</string>
 			<key>packageIdentifier</key>
 			<string>com.burritoz.testing</string>
-			<key>packageNameOverride</key>
-			<string>Dockify by Burrit0z</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Transparent Toggle (overrides custom opcaity):</string>
+			<string>Overall Dock Settings:</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -38,12 +36,6 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Hide Dock (overrides custom height):</string>
-		</dict>
-		<dict>
-			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
 			<false/>
@@ -52,7 +44,7 @@
 			<key>key</key>
 			<string>hidden</string>
 			<key>label</key>
-			<string>Hide (kinda, not really)</string>
+			<string>Hide</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -101,6 +93,38 @@
 			<false/>
 			<key>showValue</key>
 			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Max Dock Icons:</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<string>4</string>
+			<key>defaults</key>
+			<string>com.burritoz.dockifyprefs</string>
+			<key>key</key>
+			<string>setIconNumber</string>
+			<key>min</key>
+			<integer>0</integer>
+			<key>max</key>
+			<integer>20</integer>
+			<key>isSegmented</key>
+			<true/>
+			<key>segmentCount</key>
+			<integer>20</integer>
+			<key>showValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string></string>
 		</dict>
 		<dict>
 			<key>cell</key>
