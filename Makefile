@@ -1,7 +1,5 @@
-INSTALL_TARGET_PROCESSES = SpringBoard SpringBoardHome
-# TARGET = simulator:clang::7.0
-# ARCHS = x86_64 i386
 ARCHS = armv7s arm64 arm64e
+INSTALL_TARGET_PROCESSES = SpringBoard
 
 include $(THEOS)/makefiles/common.mk
 

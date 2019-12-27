@@ -1,21 +1,9 @@
-//import needed files/headers
-/*#import <SpringBoardHome/SBDockIconListView.h>
-#import <SpringBoardHome/SBDockView.h>
-#import <SpringBoardHome/SBIconListView.h> */
+//Set up stuff
 #import <SpringBoard/SBDockIconListView.h>
 #import <SpringBoard/SBDockView.h>
 #import <SpringBoard/SBIconListView.h>
 #import <SpringBoard/SpringBoard.h>
 #import <Cephei/HBPreferences.h>
-
-@interface SBDockView
-@end
-
-@interface SBDockIconListView
-@end
-
-@interface SBIconListView
-@end
 
 //Set up variables for use with Cephei
 static BOOL transparent;
@@ -54,6 +42,14 @@ HBPreferences *preferences;
 %hook SBDockIconListView
 
 +(NSInteger)maxIcons {
+  if (hidden) {
+    return (0);
+  } else {
+    return (setIconNumber);
+  }
+}
+
++(NSInteger)iconColumnsForCurrentOrientation {
   if (hidden) {
     return (0);
   } else {
