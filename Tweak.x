@@ -1,8 +1,21 @@
 //import needed files/headers
-#import <SpringBoard/SpringBoard.h>
+/*#import <SpringBoardHome/SBDockIconListView.h>
+#import <SpringBoardHome/SBDockView.h>
+#import <SpringBoardHome/SBIconListView.h> */
 #import <SpringBoard/SBDockIconListView.h>
+#import <SpringBoard/SBDockView.h>
+#import <SpringBoard/SBIconListView.h>
+#import <SpringBoard/SpringBoard.h>
 #import <Cephei/HBPreferences.h>
-#include <UIKit/UIKit.h>
+
+@interface SBDockView
+@end
+
+@interface SBDockIconListView
+@end
+
+@interface SBIconListView
+@end
 
 //Set up variables for use with Cephei
 static BOOL transparent;
@@ -27,11 +40,16 @@ HBPreferences *preferences;
     }
 }
 
+//ios 12
 -(double)dockHeight {
     return (%orig*setHeight); //sets custom height if dock is not set to hidden
   }
-
+//ios 13
++(double)defaultHeight {
+    return (%orig*setHeight); //sets custom height if dock is not set to hidden
+  }
 %end
+
 
 %hook SBDockIconListView
 

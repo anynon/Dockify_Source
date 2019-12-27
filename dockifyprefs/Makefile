@@ -1,4 +1,4 @@
-include /Users/carsonzielinski/Documents/theos/makefiles/common.mk
+include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = dockifyprefs
 
@@ -9,7 +9,7 @@ dockifyprefs_PRIVATE_FRAMEWORKS = Preferences
 dockifyprefs_CFLAGS = -fobjc-arc
 dockifyprefs_EXTRA_FRAMEWORKS +=CepheiPrefs Cephei
 
-include /Users/carsonzielinski/Documents/theos/makefiles/bundle.mk
+include $(THEOS_MAKE_PATH)/bundle.mk
 
 internal-stage::
 	$(ECHO_NOTHING)mkdir -p $(THEOS_STAGING_DIR)/Library/PreferenceLoader/Preferences$(ECHO_END)
