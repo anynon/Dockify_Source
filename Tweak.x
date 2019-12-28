@@ -1,7 +1,8 @@
-//Set up stuff
-//#import <SpringBoardHome/SBDockIconListView.h>
-//#import <SpringBoardHome/SBDockView.h>
-//#import <SpringBoardHome/SBIconListView.h>
+//I looked at Kritanta's "Home Plus" tweak for help with ios13 stuff. I DID NOT
+//copy anything, at least knowingly because these tweaks are simillar, please
+//understand the code may be simillar becuase we are doing similar things.
+//I am liscensing this under MIT, anyone can use anything they need to from here
+#include <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
 
 @interface SBDockView
@@ -12,6 +13,13 @@
 @end
 
 @interface SBIconListView
+@end
+
+@interface SBRootIconListView : UIView
++ (NSInteger)iconColumnsForInterfaceOrientation;
+@end
+
+@interface SBDockIconListView : SBRootIconListView
 @end
 
 //Set up variables for use with Cephei
@@ -27,6 +35,7 @@ HBPreferences *preferences;
 %hook SBDockView
 
 //this deals with everything adjusting opacity/transparency
+//ios 12 and 13
 -(void)setBackgroundAlpha:(double)arg1  {
     if (transparent == NO && hidden == NO) { //if not transparent and not hidden
       %orig(customOpacity);
@@ -51,6 +60,7 @@ HBPreferences *preferences;
 
 %hook SBDockIconListView
 
+//ios 12
 +(NSInteger)maxIcons {
   if (hidden) {
     return (0);
@@ -59,15 +69,7 @@ HBPreferences *preferences;
   }
 }
 
--(BOOL)allowsAddingIconCount:(unsigned long long)arg1 {
-  if (hidden) {
-    return (0);
-    %orig(NO);
-  } else {
-    %orig(YES);
-    return (setIconNumber);
-  }
-}
+//ios13
 
 %end
 
