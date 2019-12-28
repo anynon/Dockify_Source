@@ -1,9 +1,18 @@
 //Set up stuff
-#import <SpringBoard/SBDockIconListView.h>
-#import <SpringBoard/SBDockView.h>
-#import <SpringBoard/SBIconListView.h>
-#import <SpringBoard/SpringBoard.h>
+//#import <SpringBoardHome/SBDockIconListView.h>
+//#import <SpringBoardHome/SBDockView.h>
+//#import <SpringBoardHome/SBIconListView.h>
 #import <Cephei/HBPreferences.h>
+
+@interface SBDockView
+@property (nonatomic, assign) double dockHeight;
+@end
+
+@interface SBDockIconListView
+@end
+
+@interface SBIconListView
+@end
 
 //Set up variables for use with Cephei
 static BOOL transparent;
@@ -36,6 +45,7 @@ HBPreferences *preferences;
 +(double)defaultHeight {
     return (%orig*setHeight); //sets custom height if dock is not set to hidden
   }
+
 %end
 
 
@@ -49,10 +59,12 @@ HBPreferences *preferences;
   }
 }
 
-+(NSInteger)iconColumnsForCurrentOrientation {
+-(BOOL)allowsAddingIconCount:(unsigned long long)arg1 {
   if (hidden) {
     return (0);
+    %orig(NO);
   } else {
+    %orig(YES);
     return (setIconNumber);
   }
 }

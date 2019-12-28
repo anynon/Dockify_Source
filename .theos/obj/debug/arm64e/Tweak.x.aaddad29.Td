@@ -1,5 +1,5 @@
-/Users/carsonzielinski/Documents/testing/.theos/obj/debug/arm64/Tweak.x.cce53864.o: \
-  /Users/carsonzielinski/Documents/testing/.theos/obj/debug/arm64/Tweak.x.m \
+/Users/carsonzielinski/Documents/testingios13/.theos/obj/debug/arm64e/Tweak.x.aaddad29.o: \
+  /Users/carsonzielinski/Documents/testingios13/.theos/obj/debug/arm64e/Tweak.x.m \
   /Users/carsonzielinski/Documents/theos/Prefix.pch \
   /Users/carsonzielinski/Documents/theos/include/_Prefix/BackwardsCompat.h \
   /Users/carsonzielinski/Documents/theos/include/_Prefix/IOSMacros.h \
