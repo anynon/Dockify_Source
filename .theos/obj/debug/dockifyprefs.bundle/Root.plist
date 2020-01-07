@@ -14,7 +14,19 @@
 			<key>icon</key>
 			<string>icon.png</string>
 			<key>packageIdentifier</key>
-			<string>com.burritoz.testing</string>
+			<string>com.burritoz.dockify</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Made by Burrit0z. Official repo:</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Burrit0z.github.com/repo</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -98,7 +110,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Max Dock Icons:</string>
+			<string>Custom Dock Icons (exact # you want):</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -110,13 +122,13 @@
 			<key>key</key>
 			<string>setIconNumber</string>
 			<key>min</key>
-			<integer>0</integer>
+			<integer>4</integer>
 			<key>max</key>
-			<integer>20</integer>
+			<integer>10</integer>
 			<key>isSegmented</key>
 			<true/>
 			<key>segmentCount</key>
-			<integer>20</integer>
+			<integer>6</integer>
 			<key>showValue</key>
 			<true/>
 		</dict>

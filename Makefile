@@ -1,13 +1,13 @@
-ARCHS = armv7s arm64 arm64e
+ARCHS = arm64 arm64e
 INSTALL_TARGET_PROCESSES = SpringBoard
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = testing
+TWEAK_NAME = Dockify
 
-testing_FILES = Tweak.x
-testing_CFLAGS = -fobjc-arc
-testing_EXTRA_FRAMEWORKS += Cephei
+Dockify_FILES = Dockify.x
+Dockify_CFLAGS = -fobjc-arc
+Dockify_EXTRA_FRAMEWORKS += Cephei
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += dockifyprefs

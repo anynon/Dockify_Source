@@ -1,6 +1,7 @@
-Package: com.burritoz.testing
+Package: com.burritoz.dockify
 Name: Dockify
 Depends: mobilesubstrate, preferenceloader, com.saurik.substrate.safemode, ws.hbang.common (>=1.13)
+Conflicts: com.burritoz.testing
 Version: 1.2
 Architecture: iphoneos-arm
 Description: A very noice tweak to configure the dock a bit more...
