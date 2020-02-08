@@ -110,16 +110,6 @@ HBPreferences *preferences;
     }
 }
 %end
-%hook SBDockIconListView
-
-- (NSUInteger)iconColumnsForCurrentOrientation {
-  if (hidden) {
-    return (0);
-  } else {
-    return (setIconNumber);
-  }
-}
-%end
 //fix for icons being off the page ios 13
 %hook SBIconListGridLayoutConfiguration
 
@@ -132,7 +122,7 @@ HBPreferences *preferences;
         NSUInteger rows = MSHookIvar<NSUInteger>(self, "_numberOfPortraitRows");
         NSUInteger columns = MSHookIvar<NSUInteger>(self, "_numberOfPortraitColumns");
         // dock
-        if (rows <= 2 && columns == 4) {
+        if (rows < 2) {
             self.location =  @"Dock";
         } else if (rows == 3 && columns == 3) {
             self.location =  @"Folder";
