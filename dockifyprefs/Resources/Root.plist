@@ -42,6 +42,18 @@
 			<key>defaults</key>
 			<string>com.burritoz.dockifyprefs</string>
 			<key>key</key>
+			<string>tweakEnabled</string>
+			<key>label</key>
+			<string>Enable Tweak</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.burritoz.dockifyprefs</string>
+			<key>key</key>
 			<string>transparent</string>
 			<key>label</key>
 			<string>Transparent Dock</string>
@@ -110,7 +122,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Custom Dock Icons (exact # you want):</string>
+			<string>Custom Dock Icons (buggy):</string>
 		</dict>
 		<dict>
 			<key>cell</key>

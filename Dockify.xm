@@ -1,11 +1,22 @@
+//Please note, in order to use MSHookIvar, this file needs to be .xm
 #import <Cephei/HBPreferences.h>
+#import <Foundation/Foundation.h>
 
 @interface SBCoverSheetPrimarySlidingViewController : UIViewController
 - (void)viewDidDisappear:(BOOL)arg1;
 - (void)viewDidAppear:(BOOL)arg1;
 @end
 
+@interface SBIconListGridLayoutConfiguration
+@property (nonatomic, assign) NSString *location;
+
+- (NSString *)findLocation;
+- (NSUInteger)numberOfPortraitColumns;
+- (NSUInteger)numberOfPortraitRows;
+@end
+
 //Set up variables for use with Cephei
+static BOOL tweakEnabled;
 static BOOL transparent;
 static BOOL hidden;
 static double setHeight;
@@ -13,11 +24,10 @@ static double customOpacity;
 static NSInteger setIconNumber;
 //nepeta like drm
 BOOL dpkgInvalid = NO;
-//static NSInteger setDockRowNumber;
-//static CGFloat setRowSpacing;
 
 HBPreferences *preferences;
 
+%group allVersions
 %hook SBCoverSheetPrimarySlidingViewController
 - (void)viewDidDisappear:(BOOL)arg1 {
 
@@ -38,10 +48,19 @@ HBPreferences *preferences;
 
 }
 %end
+%end
 
+%group version12
 //hook the dock
 %hook SBDockView
-
+//ios 12
+-(double)dockHeight {
+  if (hidden) {
+    return (0);
+  } else {
+    return (%orig*setHeight); //sets custom height if dock is not set to hidden
+  }
+}
 //this deals with everything adjusting opacity/transparency
 //ios 12 and 13
 -(void)setBackgroundAlpha:(double)arg1 {
@@ -53,25 +72,6 @@ HBPreferences *preferences;
       NSLog(@"Dock not Transparent/hidden, no custom opacity\n");
     }
 }
-
-//ios 13
--(double)defaultHeight {
-  if (hidden) {
-    return (0);
-  } else {
-    return (%orig*setHeight); //sets custom height if dock is not set to hidden
-  }
-}
-
-//ios 12
--(double)dockHeight {
-  if (hidden) {
-    return (0);
-  } else {
-    return (%orig*setHeight); //sets custom height if dock is not set to hidden
-  }
-}
-
 %end
 
 //NEW HOOK FOR ICON STATE
@@ -84,51 +84,80 @@ HBPreferences *preferences;
     return (setIconNumber);
   }
 }
+%end
+%end
+
+//NEW GROUP FOR ios13
+%group version13
+%hook SBDockView
+//ios 13
+-(double)dockHeight {
+  if (hidden) {
+    return (0);
+  } else {
+    return (%orig*setHeight); //sets custom height if dock is not set to hidden
+  }
+}
+//this deals with everything adjusting opacity/transparency
+//ios 12 and 13
+-(void)setBackgroundAlpha:(double)arg1 {
+    if (transparent == NO && hidden == NO) { //if not transparent and not hidden
+      %orig(customOpacity);
+    }else if (transparent || hidden) { // Note: || means or in objc
+      %orig(0.0); //hides background of the dock (transparent)
+    } else {
+      NSLog(@"Dock not Transparent/hidden, no custom opacity\n");
+    }
+}
+%end
+%hook SBDockIconListView
+
 - (NSUInteger)iconColumnsForCurrentOrientation {
   if (hidden) {
     return (0);
   } else {
-    NSInteger reg = %orig;
-    return reg; //basically just returns the original value
+    return (setIconNumber);
   }
 }
 %end
-//ios 13
+//fix for icons being off the page ios 13
 %hook SBIconListGridLayoutConfiguration
 
--(void)setNumberOfPortraitColumns:(unsigned long long)arg1 {
-  if (setIconNumber == 4) {
-    NSIntegr reg = %orig;
-    %orig(reg);
-  } else {
-    %orig(setIconNumber);
-  }
-}
-%end
+%property (nonatomic, assign) NSString *location;
 
-%hook SBIconListView
-//fix so it doesnt set all pages to 5 columns ios 13
--(unsigned long long)iconColumnsForCurrentOrientation {
-  return (4);
+%new //Modeled off of Kritanta's solution with ivars
+- (NSString *)findLocation {
+    if (self.location) return self.location;
+    else {
+        NSUInteger rows = MSHookIvar<NSUInteger>(self, "_numberOfPortraitRows");
+        NSUInteger columns = MSHookIvar<NSUInteger>(self, "_numberOfPortraitColumns");
+        // dock
+        if (rows <= 2 && columns == 4) {
+            self.location =  @"Dock";
+        } else if (rows == 3 && columns == 3) {
+            self.location =  @"Folder";
+        } else {
+            self.location =  @"Root";
+        }
+    }
+    return self.location;
 }
--(BOOL)automaticallyAdjustsLayoutMetricsToFit {
-  return YES;
-}
-%end
-//fix for icons being off the page ios 13 and maybe 12
-%hook SBIconListFlowLayout
-- (NSUInteger)numberOfColumnsForOrientation:(NSInteger)arg1 {
-  return (4);
-}
-%end
-//another fix for the folders ios12
-%hook SBFolderIconListView
-+(unsigned long long)iconColumnsForInterfaceOrientation:(long long)arg1 {
-  return (4);
-}
-%end
 
-// Thanks to Nepeta for the DRM, and thanks to Sh0rtflow as well
+- (NSUInteger)numberOfPortraitColumns {
+  [self findLocation];
+    if ([self.location isEqualToString:@"Dock"]) {
+      if (hidden) {
+        return (0);
+      } else {
+        return (setIconNumber);
+      }
+    } else {
+      return (%orig);
+    }
+}
+%end
+%end
+// Thanks to Nepeta for the DRM, and thanks to Litten as well
 %ctor {
   dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/com.burritoz.dockify.list"];
   if (!dpkgInvalid) dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/com.burritoz.dockify.md5sums"];
@@ -136,17 +165,27 @@ HBPreferences *preferences;
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"com.burritoz.dockifyprefs"];
   [preferences registerDefaults:@ { //defaults for prefernces
+    @"tweakEnabled": @YES,
     @"setHeight": @1,
     @"customOpacity": @1,
     @"hidden": @NO,
     @"setIconNumber": @4,
-//    @"setRowSpacing": @0,
 	}];
+  [preferences registerBool:&tweakEnabled default:YES forKey:@"tweakEnabled"];
 	[preferences registerBool:&transparent default:YES forKey:@"transparent"]; //registering transparent as a Boolean
   [preferences registerBool:&hidden default:NO forKey:@"hidden"]; //registering hidden as a Boolean
 	[preferences registerDouble:(double *)&setHeight default:1 forKey:@"setHeight"]; //registering setHeigt as a double (number)
   [preferences registerDouble:(double *)&customOpacity default:1 forKey:@"customOpacity"]; //registering customOpacity as a double (number)
   [preferences registerInteger:(NSInteger *)&setIconNumber default:4 forKey:@"setIconNumber"]; //Integer of how many icons to allow
-//  [preferences registerInteger:(NSInteger *)&setDockRowNumber default:1 forKey:@"setDockRowNumber"]; //Integer of how many dock rows to allow
-//  [preferences registerFloat:(CGFloat *)&setRowSpacing default:0 forKey:@"setRowSpacing"]; //custom dock row spacing?
+if (tweakEnabled) {
+  %init(allVersions);
+  if (kCFCoreFoundationVersionNumber < 1600) //This means version < 12
+    {
+        %init(version12);
+    }
+    else
+    {
+        %init(version13);
+    }
+  }
 }

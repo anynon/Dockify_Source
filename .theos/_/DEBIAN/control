@@ -3,9 +3,9 @@ Name: Dockify
 Depends: mobilesubstrate, preferenceloader, com.saurik.substrate.safemode, ws.hbang.common (>=1.13)
 Conflicts: com.burritoz.testing
 Architecture: iphoneos-arm
-Description: A very noice tweak to configure the dock a bit more...
+Description: A very noice tweak to configure the dock a bit more... Lightweight and effective!
 Maintainer: burrit0z
 Author: burrit0z
 Section: Tweaks
-Version: 1.2-7+debug
-Installed-Size: 356
+Version: 1.2.1
+Installed-Size: 412
